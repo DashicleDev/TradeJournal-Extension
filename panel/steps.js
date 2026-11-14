@@ -155,7 +155,7 @@ function toDoc() {
       pair: tk,
       date: D.date,
       closeDate: "",
-      status: D.missed ? "missed" : D.pending ? "pending" : "taken",
+      status: D.missed ? "missed" : D.keep || "taken",
       account: LIVE() ? D.account || "" : "",
       btDate: LIVE() ? null : new Date().toISOString().slice(0, 10),
       sPhase: D.sPhase || "",
@@ -234,7 +234,7 @@ function toDoc() {
     mode: LIVE() ? "live" : "backtest",
     market: "fx",
     project: LIVE() ? null : D.project || null,
-    status: D.missed ? "missed" : D.pending ? "pending" : "taken",
+    status: D.missed ? "missed" : D.keep || "taken",
     account: LIVE() ? D.account || "" : "",
     btDate: LIVE() ? null : new Date().toISOString().slice(0, 10),
     date: D.date,
@@ -468,7 +468,7 @@ function fromDoc(t) {
     slPips: s(t.slPips),
     tpPips: s(t.tpPips),
     missed: t.status === "missed",
-    pending: t.status === "pending", // set in the journal; the panel only keeps it
+    keep: t.status === "pending" || t.status === "expired" ? t.status : "", // set in the journal; the panel only keeps it
   };
 }
 // an unsaved new trade is in the panel (the same test the start screen uses)

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.34 — 2026-11-14
+
+- **Expired trades stay Expired** when you edit them in the panel (the new Expired status in journal 1.3.55; like Pending it is set in the journal).
+
 ## 1.4.33 — 2026-11-14
 
 - **Pending trades stay Pending** when you edit them in the panel (the new Status in journal 1.3.53; it is set in the journal).
