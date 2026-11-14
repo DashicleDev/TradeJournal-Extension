@@ -165,7 +165,8 @@ const handlers = {
   async openTrade({ id }) {
     if (!/^[A-Za-z0-9_-]{1,40}$/.test(id || "")) return null;
     const rows = await rest("docs?select=data&id=eq." + encodeURIComponent(id));
-    return (rows[0] && rows[0].data) || null;
+    const d = rows[0] && rows[0].data;
+    return d && !d.deletedAt ? d : null; // a trade in the journal's bin is not opened
   },
 };
 
