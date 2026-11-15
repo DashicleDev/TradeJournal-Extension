@@ -202,6 +202,7 @@ function renderInner() {
           [
             ["BM", "BM"],
             ["IHS", "IHS"],
+            ["PinP", "PinP"],
           ],
           D.swPat
         )

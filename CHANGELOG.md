@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.36 — 2026-11-15
+
+- **Invest weekly pattern: PinP** next to BM and IHS (journal 1.3.59).
+
 ## 1.4.35 — 2026-11-14
 
 - **A trade in the journal's bin is not opened by Replay** (journal 1.3.57).
