@@ -163,6 +163,8 @@ function toDoc() {
       s6ret: D.sPhase === "B" ? D.s6ret || "" : "",
       swPat: D.swPat || "",
       ...Object.fromEntries(["12", "6", "3", "1"].flatMap(tf => sProsOf(tf).map(([k]) => [sKey(tf, k), !!D[sKey(tf, k)]]))),
+      s1cc: D.sPhase === "B" ? D.s1ccM === "for" : !!D.s1cc,
+      s1ccM: D.sPhase === "B" ? D.s1ccM || "" : "",
       s12Ms: D.s12Ms || "",
       s6Ms: D.s6Ms || "",
       s3Ms: D.s3Ms || "",

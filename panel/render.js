@@ -19,7 +19,14 @@ const SPROS = [
 ];
 const sKey = (tf, k) => "s" + tf + k + (tf === "12" && k === "bm" ? "p" : "");
 const sProsOf = tf => SPROS.filter(([k]) => k !== "bm" || tf !== "6");
-const sPros = tf => proBox("s" + tf + "pros", sProsOf(tf).map(([k, l]) => [sKey(tf, k), l]));
+// in Phase B the Monthly Bullish CC is a required yes / no (s1ccM) and leaves the pros
+const sPros = tf =>
+  proBox(
+    "s" + tf + "pros",
+    sProsOf(tf)
+      .filter(([k]) => !(tf === "1" && k === "cc" && D.sPhase === "B"))
+      .map(([k, l]) => [sKey(tf, k), l])
+  );
 const seg = (k, opts, v) =>
   `<div class="segs">${opts.map(([val, l]) => `<button type="button" class="sg${v === val ? " on" : ""}${val === "against" ? " neg" : val === "for" ? " pos" : ""}" data-k="${k}" data-v="${esc(val)}">${l}</button>`).join("")}</div>`;
 // camera line icon (lucide): Continue on a timeframe step also takes the chart snapshot
@@ -176,6 +183,21 @@ function renderInner() {
     m3: () => `${f("Market structure", ms("s3Ms"))}
       ${f("Pros", sPros("3"))}`,
     mo: () => `${f("Market structure", ms("s1Ms"))}
+      ${
+        D.sPhase === "B"
+          ? f(
+              "Bullish CC <em>required</em>",
+              seg(
+                "s1ccM",
+                [
+                  ["for", "✓ Yes"],
+                  ["against", "✗ No"],
+                ],
+                D.s1ccM
+              )
+            )
+          : ""
+      }
       ${f("Pros", sPros("1"))}`,
     wk: () =>
       `${f("Market structure", ms("swMs"))}${f(

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.38 — 2026-11-17
+
+- **Invest: Monthly bullish CC is a required yes / no in Phase B** (journal 1.3.62).
+
 ## 1.4.37 — 2026-11-17
 
 - **Invest steps follow the journal's new form:** Pros on 12M, 6M, 3M and Monthly (FC, SD zone, Bullish CC, IC, BM; no BM on the 6M), "BM type" / "Returned to" on the 6M, and no 12M pattern or "back to previous structure" (journal 1.3.61).
