@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.39 — 2026-11-17
+
+- **Lists stay open while you pick.** Pros/cons, daily criteria, invest pros and exit strategies no longer close after each pick or when you remove a chip with ×, and keep their scroll position (journal 1.3.63).
+- **Scrolling past the end of a list no longer scrolls the chart page behind it.**
+
 ## 1.4.38 — 2026-11-17
 
 - **Invest: Monthly bullish CC is a required yes / no in Phase B** (journal 1.3.62).

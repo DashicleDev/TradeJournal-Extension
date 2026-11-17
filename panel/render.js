@@ -75,7 +75,8 @@ function renderInner() {
     return;
   }
   const pos = panel.querySelector(".body"),
-    top = pos ? pos.scrollTop : 0;
+    top = pos ? pos.scrollTop : 0,
+    lsTop = panel.querySelector(".mslist")?.scrollTop || 0; // an open list stays open after a pick, so keep its place
   if (!user) {
     panel.innerHTML = `<div class="head"><b>Trade Journal</b><button type="button" class="x" data-act="hide" title="Minimize">–</button><button type="button" class="x x2" data-act="close" title="Hide panel">×</button></div>
     <form class="body login"><p>Sign in with your Trade Journal account. The extension only saves backtest trades to your own journal.</p>
@@ -597,5 +598,8 @@ function renderInner() {
   if (b) b.scrollTop = top;
   fit();
   const ls = panel.querySelector(".mslist");
-  if (ls) ls.scrollIntoView({ block: "nearest" });
+  if (ls) {
+    ls.scrollTop = lsTop;
+    ls.scrollIntoView({ block: "nearest" });
+  }
 }

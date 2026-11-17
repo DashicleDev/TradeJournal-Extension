@@ -24,7 +24,8 @@ root.addEventListener("click", async e => {
     dd = dd === box.dataset.dd ? null : box.dataset.dd;
     return render();
   }
-  if (dd && !e.target.closest(".mslist")) {
+  // clicks in the open list or on its chips' × keep it open
+  if (dd && !e.target.closest(".ms")?.querySelector(".mslist")) {
     dd = null;
     render();
   }
@@ -204,7 +205,6 @@ root.addEventListener("click", async e => {
       if (!h.includes(d.exhow)) x.hows = [...h, d.exhow];
       keep();
     }
-    dd = null;
     return render();
   }
   if (d.exun != null) {
@@ -297,7 +297,6 @@ root.addEventListener("click", async e => {
   }
   if (d.addw) {
     D.w[d.addw] = d.side;
-    dd = null;
     keep();
     return render();
   }
@@ -308,13 +307,11 @@ root.addEventListener("click", async e => {
   }
   if (d.addd) {
     if (!D.dPros.includes(d.addd)) D.dPros = [...D.dPros, d.addd];
-    dd = null;
     keep();
     return render();
   }
   if (d.addh) {
     D[d.addh] = true;
-    dd = null;
     keep();
     return render();
   }
