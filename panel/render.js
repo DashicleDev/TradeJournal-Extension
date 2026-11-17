@@ -8,6 +8,18 @@ const proBox = (id, list) => {
     rest = list.filter(([k]) => !D[k]);
   return `<div class="ms for"><div class="msbox" data-dd="${id}">${on.map(([k, l]) => `<span class="mchip for">${esc(l)}<button type="button" data-unh="${k}" aria-label="Remove ${esc(l)}">×</button></span>`).join("") || `<span class="msph">Choose pros…</span>`}<i>▾</i></div>${dd === id ? `<div class="mslist">${rest.length ? rest.map(([k, l]) => `<button type="button" data-addh="${k}">${esc(l)}</button>`).join("") : `<span class="msph">All pros used</span>`}</div>` : ""}</div>`;
 };
+// invest pros, the same list on every timeframe (same fields as the journal: s12fc, s6sd, s3bm, ...); the 6M has no BM pro
+// because s6bm is its BM type, and the 12M BM pro is s12bmp as s12bm is the old 12M pattern
+const SPROS = [
+  ["fc", "FC"],
+  ["sd", "SD zone"],
+  ["cc", "Bullish CC"],
+  ["ic", "IC"],
+  ["bm", "BM"],
+];
+const sKey = (tf, k) => "s" + tf + k + (tf === "12" && k === "bm" ? "p" : "");
+const sProsOf = tf => SPROS.filter(([k]) => k !== "bm" || tf !== "6");
+const sPros = tf => proBox("s" + tf + "pros", sProsOf(tf).map(([k, l]) => [sKey(tf, k), l]));
 const seg = (k, opts, v) =>
   `<div class="segs">${opts.map(([val, l]) => `<button type="button" class="sg${v === val ? " on" : ""}${val === "against" ? " neg" : val === "for" ? " pos" : ""}" data-k="${k}" data-v="${esc(val)}">${l}</button>`).join("")}</div>`;
 // camera line icon (lucide): Continue on a timeframe step also takes the chart snapshot
@@ -127,42 +139,12 @@ function renderInner() {
         )}</div>${posSel()}
       ${f("Missed trade", `<div class="segs">${chk("missed", "Missed")}</div>`)}`,
     m12: () => `${f("Market structure", ms("s12Ms"))}
-      ${
-        D.s12Ms === "for"
-          ? f(
-              "Pattern <em>optional</em>",
-              seg(
-                "s12bm",
-                [
-                  ["FS", "FS"],
-                  ["100", "100"],
-                  ["PinP", "PinP"],
-                ],
-                D.s12bm
-              )
-            )
-          : ""
-      }
-      ${
-        D.s12Ms === "against"
-          ? f(
-              "Back to previous structure",
-              seg(
-                "s12ret",
-                [
-                  ["FS", "FS"],
-                  ["100", "100"],
-                ],
-                D.s12ret
-              )
-            )
-          : ""
-      }`,
+      ${f("Pros", sPros("12"))}`,
     m6: () => `${f("Market structure", ms("s6Ms"))}
       ${
         D.sPhase === "A"
           ? f(
-              "BM",
+              "BM type",
               seg(
                 "s6bm",
                 [
@@ -178,7 +160,7 @@ function renderInner() {
       ${
         D.sPhase === "B"
           ? f(
-              "Back to previous MS",
+              "Returned to",
               seg(
                 "s6ret",
                 [
@@ -189,11 +171,12 @@ function renderInner() {
               )
             )
           : ""
-      }`,
+      }
+      ${f("Pros", sPros("6"))}`,
     m3: () => `${f("Market structure", ms("s3Ms"))}
-      ${f("Pros", proBox("s3pros", [["s3bm", "BM"], ["s3cc", "Bullish CC"]]))}`,
+      ${f("Pros", sPros("3"))}`,
     mo: () => `${f("Market structure", ms("s1Ms"))}
-      ${f("Pros", proBox("s1pros", [["s1bm", "BM"], ["s1cc", "Bullish CC"]]))}`,
+      ${f("Pros", sPros("1"))}`,
     wk: () =>
       `${f("Market structure", ms("swMs"))}${f(
         "Pattern",
