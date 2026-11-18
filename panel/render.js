@@ -238,6 +238,7 @@ function renderInner() {
           : ""
       }
       ${!LIVE() && simProj() ? `<p class="hint">Simulated with ${esc(simProj().simAccount)}: max ${esc(String(simProj().simMax))} per position. The journal works out the shares and P&amp;L.</p>` : ""}
+      <p class="hint" style="margin:0 0 4px">Position <button type="button" class="lnk inl" data-act="posvalues" title="Reads the Long/Short position on the chart again and overwrites entry and stop">⟳ refresh from position</button></p>
       <div class="${LIVE() ? "row3" : "row2"}">${LIVE() ? f("Shares bought", `<input type="number" step="any" min="0" data-k="sShares" value="${esc(D.sShares)}">`) : ""}${f("Entry", `<input type="number" step="any" data-k="sEntry" value="${esc(D.sEntry)}">`)}${f("Initial stop", `<input type="number" step="any" data-k="sStop" value="${esc(D.sStop)}">`)}</div>
       <b class="ttl">Exits</b>
       ${plan.length ? `<p class="hint">Plan: ${esc(plan.map(([n, p]) => p + "% " + n).join(" · "))}</p>` : ""}
@@ -383,7 +384,7 @@ function renderInner() {
           return `<div class="ms for"><div class="msbox" data-dd="dpros">${sel.map(([k, l]) => `<span class="mchip for">${esc(l)}<button type="button" data-und="${k}" aria-label="Remove ${esc(l)}">×</button></span>`).join("") || `<span class="msph">Choose criteria…</span>`}<i>▾</i></div>${dd === "dpros" ? `<div class="mslist">${rest.length ? rest.map(([k, l]) => `<button type="button" data-addd="${k}">${esc(l)}</button>`).join("") : `<span class="msph">All criteria used</span>`}</div>` : ""}</div>`;
         })()
       )}`,
-        h4: () => `
+        h4: () => `${editPos()}
       <div class="row2">${f("4H entry", `<select data-k="entryc">${entryOptHtml(entryKey(D.entry4h, D.struct))}</select>`)}${f("Market structure", seg("hMs", MS, D.hMs))}</div>
       ${f(
         "4H pros",
@@ -409,9 +410,10 @@ function renderInner() {
             )
           : ""
       }
+      <p class="hint" style="margin:0 0 4px">Planned trade <button type="button" class="lnk inl" data-act="posvalues" title="Reads the Long/Short position on the chart again and overwrites these three">⟳ refresh from position</button></p>
       <div class="row3">${f("Planned entry price", `<input type="number" step="any" data-k="planEntry" value="${esc(D.planEntry)}">`)}${f("Stop loss (pips)", `<input type="number" step="any" min="0" data-k="slPips" value="${esc(D.slPips)}">`)}${f("Take profit (pips)", `<input type="number" step="any" min="0" data-k="tpPips" value="${esc(D.tpPips)}">`)}</div>
       <p class="hint">Planned R:R <b data-rr>${esc(rrText())}</b></p>`,
-        result: () => `
+        result: () => `${editPos()}
       ${f(
         "Outcome",
         seg(

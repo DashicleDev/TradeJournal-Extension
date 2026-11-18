@@ -63,10 +63,21 @@ const posLine = () => {
 const posSel = () =>
   posList.length
     ? f(
-        `Position <button type="button" class="lnk inl" data-act="posrefresh" title="Look for positions on the chart again">⟳</button>`,
-        `<select data-k="posPick">${posList.map(p => `<option value="${esc(p.id)}" ${p.id === D.posId ? "selected" : ""}>${esc(posLab(p))}</option>`).join("")}</select>`
+        `Position <button type="button" class="lnk inl" data-act="${editDoc ? "poslist" : "posrefresh"}" title="${editDoc ? "List the positions on the chart (fills nothing)" : "Look for positions on the chart again"}">${editDoc ? "⟳ Find again" : "⟳"}</button>`,
+        `<select data-k="posPick">${editDoc && !D.posId ? '<option value="">Choose a position…</option>' : ""}${posList.map(p => `<option value="${esc(p.id)}" ${p.id === D.posId ? "selected" : ""}>${esc(posLab(p))}</option>`).join("")}</select>`
       )
     : "";
+// editing a saved trade: pick a Long/Short position on the 4H and Result steps to fill direction, dates, entry, stop and
+// target from it. Nothing is read when the edit opens: ⟳ only lists the positions, picking one fills
+const editPos = () =>
+  !editDoc
+    ? ""
+    : posList.length
+      ? posSel()
+      : f(
+          "Position",
+          `<div class="fb"><button type="button" class="btn" data-act="poslist" title="Fills nothing; pick a position from the list afterwards">Find positions on the chart</button></div><p class="hint">${esc(posWhy || "Draw a Long/Short position on the chart first, then press the button.")}</p>`
+        );
 // fills empty fields only, unless "force" lists the fields to overwrite
 async function fromPos(force = []) {
   const p = await getPos();

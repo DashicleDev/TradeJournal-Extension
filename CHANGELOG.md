@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.40 — 2026-11-18
+
+- **Editing a trade: pick a Long/Short position on the 4H and Result steps.** "Find positions on the chart" lists the drawings (nothing is read or filled when the edit opens); choosing one fills direction, dates, entry, stop and target from it.
+- **"⟳ refresh from position"** reads the chart's Long/Short position again and overwrites the planned entry, stop and target (forex, 4H step) or entry and stop (invest, Execution step).
+
 ## 1.4.39 — 2026-11-17
 
 - **Lists stay open while you pick.** Pros/cons, daily criteria, invest pros and exit strategies no longer close after each pick or when you remove a chip with ×, and keep their scroll position (journal 1.3.63).

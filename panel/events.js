@@ -85,6 +85,18 @@ root.addEventListener("click", async e => {
     showPos(curPos());
     return;
   }
+  if (d.act === "poslist") {
+    await getPos(); // editing: only lists the positions; picking one in the list fills
+    msg = posList.length ? "" : posWhy;
+    return render();
+  }
+  if (d.act === "posvalues") {
+    // the chosen Long/Short position (else the selected one on the chart, else the latest entry): entry, stop and target again
+    const p = await fromPos(INV() ? ["sEntry", "sStop"] : ["planEntry", "slPips", "tpPips"]);
+    msg = p ? `${INV() ? "Entry and stop" : "Entry, stop and target"} from the ${p.dir === "long" ? "Long" : "Short"} position.` : posWhy;
+    keep();
+    return render();
+  }
   if (d.act === "posrefresh") {
     const p = await fromPos(["dir", "date", "closeDate", "planEntry", "slPips", "tpPips", "sEntry", "sStop"]);
     msg = p ? "" : posWhy;
@@ -390,6 +402,7 @@ root.addEventListener("change", async e => {
   const k = e.target.dataset && e.target.dataset.k;
   if (!k) return;
   if (k === "posPick") {
+    if (!e.target.value) return; // the "Choose a position…" line while editing
     D.posPick = e.target.value;
     const p = await fromPos(["dir", "date", "closeDate", "planEntry", "slPips", "tpPips", "sEntry", "sStop"]);
     showPos(p);
