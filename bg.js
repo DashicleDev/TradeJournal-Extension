@@ -161,6 +161,23 @@ const handlers = {
   async replayWin(msg, sender) {
     if (sender.tab) await set({ replayWin: sender.tab.windowId });
   },
+  // The journal's "Load in extension": show a trade in the panel of a TradingView chart that is already open (your current
+  // layout), most recently used first. false when no chart tab can take it; the journal then says so.
+  async loadTrade({ id }) {
+    if (!/^[A-Za-z0-9_-]{1,40}$/.test(id || "")) return false;
+    const tabs = (await chrome.tabs.query({ url: "https://*.tradingview.com/chart/*" })).sort(
+      (a, b) => (b.lastAccessed || 0) - (a.lastAccessed || 0)
+    );
+    for (const t of tabs) {
+      try {
+        await chrome.tabs.sendMessage(t.id, { type: "loadTrade", id });
+        await chrome.tabs.update(t.id, { active: true });
+        await chrome.windows.update(t.windowId, { focused: true });
+        return true;
+      } catch {} // no panel in that tab (not loaded yet): try the next one
+    }
+    return false;
+  },
   // A trade the journal's Replay window asked to open (#tj-trade=<id> in the chart address), for the panel to edit.
   async openTrade({ id }) {
     if (!/^[A-Za-z0-9_-]{1,40}$/.test(id || "")) return null;

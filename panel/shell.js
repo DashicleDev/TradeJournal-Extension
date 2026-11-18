@@ -52,6 +52,13 @@ chrome.storage.local.get("pillPos").then(o => {
 chrome.runtime.onMessage.addListener(m => {
   if (m && m.type === "toggle") toggle(!open);
 });
+// the journal's "Load in extension": open that trade here for editing, on the layout you have open (an unsaved new trade asks first)
+chrome.runtime.onMessage.addListener((m, s, reply) => {
+  if (!m || m.type !== "loadTrade") return false;
+  if (user) call("openTrade", { id: m.id }).then(t => t && requestOpen(t, "h4")).catch(() => {});
+  reply(!!user);
+  return false;
+});
 function toggle(v) {
   open = v;
   store({ open });

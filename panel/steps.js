@@ -487,8 +487,10 @@ const hasDraft = () =>
   !editDoc &&
   !!((INV() ? D.sPhase || D.s12Ms || D.s6Ms : D.dir || D.fase || D.concept || D.entry4h) || Object.keys(D.links).length);
 // open a saved trade for editing; with an unsaved new trade in the panel, ask first (askOpen)
-async function requestOpen(t) {
+let openTo = "weekly"; // the step a trade opens on for editing; the journal's "Load in extension" asks for the 4H (a new snapshot)
+async function requestOpen(t, to) {
   if (!t || t.kind || t.market === "stocks") return;
+  openTo = to || "weekly";
   if (hasDraft()) {
     askOpen = t;
     if (!open) toggle(true);
@@ -508,7 +510,9 @@ async function openEdit(t) {
   msg = "";
   store({ edit: t, draft: D, mkt, tmode, logging });
   if (!open) toggle(true);
-  await goStep(steps().findIndex(x => x[0] === "weekly"));
+  const at = steps().findIndex(x => x[0] === openTo);
+  openTo = "weekly";
+  await goStep(at < 0 ? steps().findIndex(x => x[0] === "weekly") : at);
 }
 function cancelEdit() {
   editDoc = null;

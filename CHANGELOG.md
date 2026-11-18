@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.42 — 2026-11-18
+
+- **"Load in extension" from the journal.** The journal's new button hands a trade to a TradingView chart you already have open (the most recently used one, on your current layout), no new window and no replay. The trade opens on the 4H step, so you can remove the 4H snapshot and take a new one (journal 1.3.68).
+
 ## 1.4.41 — 2026-11-18
 
 - **A live forex trade can sit on several accounts.** The Account field is a list you pick from, with a chip per account (journal 1.3.67). Invest keeps one account.
