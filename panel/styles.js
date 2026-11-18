@@ -68,6 +68,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--acc)}textarea{resize:
 .msg{margin:0;font-size:12px;color:var(--ink);line-height:1.4}
 .stp{display:flex;gap:4px;padding:8px 12px 0}.st{flex:1;min-width:0;border:0;border-bottom:2px solid var(--line);background:none;color:var(--mut);font-size:11px;font-weight:600;padding:4px 2px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .st.done{color:var(--ink);border-color:color-mix(in srgb,var(--acc) 45%,transparent)}.st.on{color:var(--ink);border-color:var(--acc)}
+.shotrow{display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--in);font-size:12px}.shotrow span{flex:1;color:var(--mut)}
 .shot.cur img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:6px;border:1px solid var(--line)}
 .grl{margin:0;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--mut);line-height:1.35}.grl>span:last-child{min-width:0}
 .grb{flex:none;display:inline-grid;place-items:center;min-width:24px;height:22px;padding:0 6px;border-radius:6px;font:600 12px/1 inherit}

@@ -20,7 +20,7 @@ root.addEventListener("submit", async e => {
 });
 root.addEventListener("click", async e => {
   const box = e.target.closest("[data-dd]");
-  if (box && !e.target.closest("[data-unw],[data-und],[data-unh],[data-exun]")) {
+  if (box && !e.target.closest("[data-unw],[data-und],[data-unh],[data-exun],[data-unacc]")) {
     dd = dd === box.dataset.dd ? null : box.dataset.dd;
     return render();
   }
@@ -296,6 +296,11 @@ root.addEventListener("click", async e => {
     store({ collapsed });
     return render();
   }
+  if (d.act === "shotview") {
+    const m = (D.links[d.slot] || "").match(/x\/([^/]+)/);
+    if (m) shotView(m[1]);
+    return;
+  }
   if (d.arm) return arm(d.arm);
   if (d.rm) {
     delete D.links[d.rm];
@@ -319,6 +324,12 @@ root.addEventListener("click", async e => {
   }
   if (d.addd) {
     if (!D.dPros.includes(d.addd)) D.dPros = [...D.dPros, d.addd];
+    keep();
+    return render();
+  }
+  if (d.addacc || d.unacc) {
+    D.account = (d.addacc ? [...acNames(D.account), d.addacc] : acNames(D.account).filter(n => n !== d.unacc)).join(", ");
+    store({ lastAccount: D.account });
     keep();
     return render();
   }

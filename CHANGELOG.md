@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.41 — 2026-11-18
+
+- **A live forex trade can sit on several accounts.** The Account field is a list you pick from, with a chip per account (journal 1.3.67). Invest keeps one account.
+- **A saved chart no longer shows as a big picture** while you edit. One line says "Weekly chart saved" with **Open** (the snapshot full screen, click or Esc to close) and **Remove** (to take the chart again).
+
 ## 1.4.40 — 2026-11-18
 
 - **Editing a trade: pick a Long/Short position on the 4H and Result steps.** "Find positions on the chart" lists the drawings (nothing is read or filled when the edit opens); choosing one fills direction, dates, entry, stop and target from it.

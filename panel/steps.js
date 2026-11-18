@@ -282,11 +282,24 @@ const rrText = () => {
 };
 const LIVE = () => tmode === "live",
   INV = () => mkt === "stocks";
+const acNames = s =>
+  String(s || "")
+    .split(/\s*,\s*/)
+    .filter(Boolean);
+// forex: a trade can sit on several accounts (D.account = "A, B"), picked in a list like the pros; invest keeps one
+const accBox = () => {
+  const have = acNames(D.account),
+    rest = accounts
+      .filter(a => (a.market || "fx") === mkt && (a.status || (a.archived ? "closed" : "active")) === "active")
+      .map(a => a.name)
+      .filter(n => !have.includes(n));
+  return `<div class="ms for"><div class="msbox" data-dd="acc">${have.map(n => `<span class="mchip for">${esc(n)}<button type="button" data-unacc="${esc(n)}" aria-label="Remove ${esc(n)}">×</button></span>`).join("") || `<span class="msph">No account</span>`}<i>▾</i></div>${dd === "acc" ? `<div class="mslist">${rest.length ? rest.map(n => `<button type="button" data-addacc="${esc(n)}">${esc(n)}</button>`).join("") : `<span class="msph">All accounts used</span>`}</div>` : ""}</div>`;
+};
 const ctxSel = () =>
   LIVE()
     ? f(
         "Account",
-        `<select data-k="account"><option value="">No account</option>${accounts
+        INV() ? `<select data-k="account"><option value="">No account</option>${accounts
           .filter(a => (a.market || "fx") === mkt)
           .map(
             a =>
@@ -294,7 +307,7 @@ const ctxSel = () =>
           )
           .join(
             ""
-          )}${D.account && !accounts.some(a => a.name === D.account && (a.market || "fx") === mkt) ? `<option selected value="${esc(D.account)}">${esc(D.account)}</option>` : ""}</select>`
+          )}${D.account && !accounts.some(a => a.name === D.account && (a.market || "fx") === mkt) ? `<option selected value="${esc(D.account)}">${esc(D.account)}</option>` : ""}</select>` : accBox()
       )
     : f(
         "Project",

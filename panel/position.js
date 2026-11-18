@@ -2,6 +2,25 @@
  * panel/position.js — Reads the Long/Short Position drawing (entry, stop, target, dates) and the
  * "skip to drawing" bar-replay feature.
  */
+// a saved chart snapshot full screen over the page; a click or Esc closes it
+function shotView(id) {
+  const o = document.createElement("div");
+  o.style.cssText = "position:fixed;inset:0;z-index:2147483647;background:rgba(0,0,0,.88);display:grid;place-items:center;cursor:zoom-out";
+  o.innerHTML = `<img src="${tvImg(id)}" alt="Chart snapshot" style="max-width:96vw;max-height:94vh;object-fit:contain;border-radius:6px">`;
+  const onKey = e => {
+    if (e.key === "Escape") {
+      e.stopPropagation();
+      close();
+    }
+  };
+  const close = () => {
+    o.remove();
+    removeEventListener("keydown", onKey, true);
+  };
+  o.onclick = close;
+  addEventListener("keydown", onKey, true);
+  document.documentElement.appendChild(o);
+}
 /* ---------- long / short position tool ---------- */
 // hook.js reads the selected Long/Short Position drawing, otherwise the one with the latest entry.
 let posWhy = "",
